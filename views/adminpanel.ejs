@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="/style/adminpanel.css">
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <h2>Admin Panel</h2>
+      <ul>
+        <li><a href="#" id="users-link">Users</a></li>
+        <li><a href="#" id="login-link">Logins</a></li>
+        <li><a href="#" id="notes-link">Notes Update</a></li>
+        <li><a href="#" id="forms-link">Forms</a></li>
+        <li><a href="#" id="adminlogin-link">Admin Logins</a></li>
+        <li><a href="#" id="changepassword-link">Change Password</a></li>
+        <li><a href="#" id="registeradmin-link">Register Admin</a></li>
+        <li><a href="#" id="adminusers-link">Admin Users</a></li>
+      </ul> 
+    </div>
+  
+    <!-- Three-Dot Menu for Mobile -->
+    <div class="three-dot-menu">
+      <i class="fas fa-ellipsis-v"></i>
+      <div class="menu-content">
+        <ul>
+          <li><a href="#" data-section="users-section">Users</a></li>
+          <li><a href="#" data-section="login-section">Logins</a></li>
+          <li><a href="#" data-section="notes-section">Notes Update</a></li>
+          <li><a href="#" data-section="forms-section">Forms</a></li>
+          <li><a href="#" data-section="adminlogin-section">Admin Logins</a></li>
+          <li><a href="#" data-section="changepassword-section">Change Password</a></li>
+          <li><a href="#" data-section="registeradmin-section">Register Admin</a></li>
+          <li><a href="#" data-section="adminusers-section">Admin Users</a></li>
+        </ul>
+      </div>
+    </div>
+     
+
+    <div class="main-content">
+      <!-- Users Section -->
+      <div id="users-section" class="content-section">
+        <h3>Users</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Password</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (users && users.length > 0) { %>
+              <% users.forEach(user => { %>
+                <tr>
+                  <td><%= user.id %></td>
+                  <td><%= user.email %></td>
+                  <td><%= user.password %></td>
+                  <td>
+                    <form style="padding: 0; margin: 0;" method="post" action="/deleteuser/<%= user.id %>">
+                    <button type="submit">Delete</button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr>
+                <td colspan="4">No users found.</td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Login Attempts Section -->
+      <div id="login-section" class="content-section">
+        <h2>Login Attempts</h2>
+        <table border="1">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Timestamp</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (logins && logins.length > 0) { %>
+              <% logins.forEach(login => { %>
+                <tr>
+                  <td><%= login.id %></td>
+                  <td><%= login.email %></td>
+                  <td><%= login.timestamp %></td>
+                  <td>
+                     <form style="padding: 0; margin: 0;" method="post" action="/deleteuserlogins/<%= login.id %>">
+                    <button type="submit">Delete</button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr>
+                <td colspan="4">No login attempts found.</td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Add Notes Section -->
+      <div id="notes-section" class="content-section">
+        <form action="/adminpanel" method="post" enctype="multipart/form-data">
+          <!-- Your existing form fields -->
+          <label for="branch">Branch:</label>
+          <select name="branch" id="branch">
+              <option value="BTech">BTech</option>
+          </select>
+          <label for="department">Department:</label>
+          <select name="department" id="department">
+              <option value="CSE">CSE</option>
+              <option value="CSE_CS">CSE (CS)</option>
+              <option value="CSE_AIDS">CSE (AIDS)</option>
+              <option value="CSE_IOT">CSE (IOT)</option>
+          </select>
+          <label for="semester">Semester:</label>
+          <select name="semester" id="semester">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+          </select>
+          <label for="serial_number">Serial Number:</label>
+          <input type="text" name="serial_number" id="serial_number" required>
+          <label for="course_code">Course Code:</label>
+          <input type="text" name="course_code" id="course_code" required>
+          <label for="subject_name">Subject Name:</label>
+          <input type="text" name="subject_name" id="subject_name" required>
+          <label for="module_1">Module 1:</label>
+          <input type="text" name="module_1" id="module_1" required>
+          <label for="pdf">PDF:</label>
+          <input type="file" name="pdf" id="pdf" required>
+          <button type="submit">Upload</button>
+      </form>
+  
+      <h2>Notes</h2>
+      <table border="1">
+          <thead>
+              <tr>
+                  <th>Branch</th>
+                  <th>Department</th>
+                  <th>Semester</th>
+                  <th>Serial Number</th>
+                  <th>Course Code</th>
+                  <th>Subject Name</th>
+                  <th>Module 1</th>
+                  <th>PDF</th>
+                  <th>Actions</th>
+              </tr>
+          </thead>
+          <tbody>
+              <% notes.forEach(note => { %>
+                  <tr id="row-<%= note.id %>">
+                      <td><%= note.branch %></td>
+                      <td><%= note.department %></td>
+                      <td><%= note.semester %></td>
+                      <td><%= note.serial_number %></td>
+                      <td><%= note.course_code %></td>
+                      <td><%= note.subject_name %></td>
+                      <td><%= note.module_1 %></td>
+                      <td><a href="<%= note.pdf %>" target="_blank">View PDF</a></td>
+                      <td>
+                          <button onclick="editRow(<%= note.id %>)">Edit</button>
+                          <button onclick="saveRow(<%= note.id %>)" style="display:none;">Save</button>
+                          <button onclick="cancelEdit(<%= note.id %>)" style="display:none;">Cancel</button>
+                      </td>
+                  </tr>
+                  <tr id="edit-row-<%= note.id %>" style="display:none;">
+                      <form action="/adminpanel/edit" method="post" enctype="multipart/form-data">
+                          <input type="hidden" name="id" value="<%= note.id %>">
+                          <td><input type="text" name="branch" value="<%= note.branch %>" required></td>
+                          <td><input type="text" name="department" value="<%= note.department %>" required></td>
+                          <td><input type="number" name="semester" value="<%= note.semester %>" required></td>
+                          <td><input type="text" name="serial_number" value="<%= note.serial_number %>" required></td>
+                          <td><input type="text" name="course_code" value="<%= note.course_code %>" required></td>
+                          <td><input type="text" name="subject_name" value="<%= note.subject_name %>" required></td>
+                          <td><input type="text" name="module_1" value="<%= note.module_1 %>" required></td>
+                          <td><input type="file" name="pdf" required></td>
+                          <td><button type="submit">Save</button></td>
+                      </form>
+                  </tr>
+              <% }); %>
+          </tbody>
+      </table>
+         </div>
+
+      <!-- Forms Section -->
+      <div id="forms-section" class="content-section">
+        <h3>Forms</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Message</th>
+              <th>Created At</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (forms && forms.length > 0) { %>
+              <% forms.forEach(form => { %>
+                <tr>
+                  <td><%= form.id %></td>
+                  <td><%= form.name %></td>
+                  <td><%= form.email %></td>
+                  <td><%= form.message %></td>
+                  <td><%= form.created_at %></td>
+                  <td>
+                    <form style="padding: 0; margin: 0;" method="post" action="/deleteuserform/<%= form.id %>">
+                      <button type="submit">Delete</button>
+                      </form>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr>
+                <td colspan="6">No forms found.</td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Admin Logins Section -->
+      <div id="adminlogin-section" class="content-section">
+        <h3>Admin Logins</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Timestamp</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (adminlogins && adminlogins.length > 0) { %>
+              <% adminlogins.forEach(adminlogin => { %>
+                <tr>
+                  <td><%= adminlogin.id %></td>
+                  <td><%= adminlogin.email %></td>
+                  <td><%= adminlogin.login_time %></td>
+                  <td>
+                    <form style="padding: 0; margin: 0;" method="post" action="/deleteadminlogins/<%= adminlogin.id %>">
+                      <button type="submit">Delete</button>
+                      </form>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr>
+                <td colspan="4">No admin logins found.</td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+      <div id="changepassword-section" class="content-section">
+        <div class="change-password-form-container">
+          <form id="changePasswordForm" method="post" action="/changeadminpassword">
+            <div class="change-password-form-group">
+              <label for="oldPassword">Old Password:</label>
+              <input type="password" name="oldPassword" id="oldPassword" required>
+              <i id="toggleOldPassword" class="fa fa-eye"></i>
+            </div>
+            <div class="change-password-form-group">
+              <label for="newPassword">New Password:</label>
+              <input type="password" name="newPassword" id="newPassword" required>
+              <i id="toggleNewPassword" class="fa fa-eye"></i>
+            </div>
+            <div class="change-password-button-container">
+              <button type="submit">Change Password</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+
+
+
+      <div id="registeradmin-section" class="content-section">
+        <div class="admin-form-container">
+          <form id="registerAdminForm" method="post" action="/registeradmin">
+            <div class="admin-form-group">
+              <input type="email" id="adminEmail" name="email"   placeholder="Admin Email" required />
+            </div>
+            <div class="admin-form-group">
+              <input type="password" id="adminPassword" name="password" placeholder="Admin Password" required />
+              <i class="fa fa-eye" id="toggleAdminPassword"></i>
+            </div>
+            <div class="admin-button-container">
+              <button type="submit">Register Admin</button>
+            </div>
+            <p id="adminMessage" class="admin-message"></p>
+          </form>
+        </div> 
+      </div>
+      <div id="adminusers-section" class="content-section">
+        <h2>Admin Users</h2>
+        <table border="1">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Password</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (admins && admins.length > 0) { %>
+              <% admins.forEach(admin => { %>
+                <tr>
+                  <td><%= admin.id %></td>
+                  <td><%= admin.email %></td>
+                  <td><%= admin.password %></td>
+                  <td>
+                    <% if (admin.id !== 2) { %>
+                      <form style="padding: 0; margin: 0;" method="post" action="/deleteadminusers/<%= admin.id %>">
+                        <button type="submit">Delete</button>
+                        </form>
+                    <% } %>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr>
+                <td colspan="4">No admin users found.</td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+      
+      </div>
+    </div>
+  </div>
+  <script src="/script/adminpanelScript.js"></script>
+</body>
+</html>

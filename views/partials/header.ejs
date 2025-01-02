@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>crescentnotes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/style/styles.css">
+    
+
+</head>
+<body>
+  <section class="Header">
+    <!-- logo -->
+    <a href="#" class="logo"><img src="/images/logo.jpg" alt="Logo"></a>
+    <!-- navigation bar -->
+    <nav class="navbar">
+        <a href="/">Home</a>
+        <a href="/contact">Contact</a>
+        <a href="/aboutus">About Us</a>
+         
+    </nav>
+    
+    <% if (user) { %>
+      <div class="profile">
+          <div class="avatar" onclick="toggleDropdown()">
+              <span><%= user.email.charAt(0).toUpperCase() %></span>
+          </div>
+          <div class="dropdown-arrow">▼</div>
+          <div class="dropdown-menu" id="dropdown-menu">
+              <p>Welcome, <%= user.email %></p>
+              <a href="/">Home</a>
+              <a href="/contact">Contact US</a>
+              <a href="/aboutus">About US</a>
+              <a href="/logout">Sign out</a>
+          </div>
+      </div>
+  <% } %>
+    
+    
+     
+     
+
+     
+     
+    </section>
+ 

@@ -1,0 +1,74 @@
+<%- include('./partials/header.ejs') %>
+
+<section class="container" id="home">
+    <div class="box forms">
+        <div class="selection">
+            <section class="form-section">
+                 
+                <form onsubmit="fetchNotes(); return false;" action='/notes' method="post">
+                  <label for="branch">Branch:</label>
+                  <select name="branch" id="branch">
+                    <option value="BTech">Select-Branch</option>
+                      <option value="BTech">BTech</option>
+                  </select>
+                  <label for="department">Department:</label>
+                  <select name="department" id="department">
+                    <option value="#">Select-Department</option>
+                      <option value="CSE">CSE</option>
+                      <option value="CSE_CS">CSE (CS)</option>
+                      <option value="CSE_AIDS">CSE (AIDS)</option>
+                      <option value="CSE_IOT">CSE (IOT)</option>
+                  </select>
+                  <label for="semester">Semester:</label>
+                  <select name="semester" id="semester">
+                    <option value="#">Select-Semester</option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                  </select>
+                  <button type="submit">Find Notes</button>
+                  <p style="color: green; text-align: center;">   <%= locals["message"] %> </p>
+              </form>             
+                     
+              </section>
+               
+              </section>
+              <section id="notes">
+                <h1 class="heading"> <span>Notes</span></h1>
+                <table border="1" id="notesTable">
+                  <thead>
+                    <tr>
+                      <th>Serial Number</th>
+                      <th>Course Code</th>
+                      <th>Subject Name</th>
+                      <th>Modules</th>
+                      <th>PDF</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% if (locals.notes) { %>
+                      <% locals.notes.forEach((note, index) => { %>
+                        <tr>
+                          <td><%= index + 1 %></td>
+                          <td><%= note.course_code %></td>
+                          <td><%= note.subject_name %></td>
+                          <td><%= note.module_1 %></td>
+                          <td><a href="<%= note.pdf %>" target="_blank">View PDF</a></td>
+                        </tr>
+                      <% }) %>
+                    <% } %>
+                  </tbody>
+                </table>          
+     </section>
+  
+
+  
+  
+<script src="/script/script.js"></script>
+ 
+<%- include('./partials/footer')%>
